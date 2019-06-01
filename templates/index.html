@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image to text converter</title>
+</head>
+
+<body>
+    <h3>Upload image:</h3>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+
+    {% if msg %}
+    <p>{{msg}}</p>
+    {% endif %}
+    <h3>Result:</h3>
+    {% if img_src %}
+    <img src="{{ img_src }}">
+    {% endif %}
+
+    {% if extracted_text %}
+    <p>Text extracted from image is <b>{{extracted_text}}</b></p>
+    {% else %}
+    <p>Extracted text will appear here</p>
+    {% endif %}
+</body>
+
+</html>
