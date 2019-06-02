@@ -27,7 +27,7 @@ def ocr_core(img_path):
     # cv2.imwrite("thres.png", img)
 
     # Recognize text with tesseract for python
-    result = pytesseract.image_to_string(Image.open("thres.png"))
+    result = pytesseract.image_to_string(img, lang="eng")
 
     # Remove template file
     #os.remove(temp)
