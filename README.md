@@ -1,1 +1,2 @@
-Run '''python flask_img2txt.py'''
+## Usage
+Run `python flask_img2txt.py`
