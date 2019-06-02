@@ -21,7 +21,10 @@
     {% endif %}
 
     {% if extracted_text %}
-    <p>Text extracted from image is <b>{{extracted_text}}</b></p>
+    {% autoescape false %}
+    <p>Text extracted from image is <br>
+         <b>{{extracted_text}}</b></p>
+    {% endautoescape %}
     {% else %}
     <p>Extracted text will appear here</p>
     {% endif %}

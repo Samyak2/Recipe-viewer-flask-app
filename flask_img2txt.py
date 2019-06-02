@@ -1,6 +1,8 @@
-from flask import Flask, request, render_template, send_from_directory
-from werkzeug import secure_filename
-from img2txt import ocr_core
+#!/home/sarnayakhome/miniconda3/envs/py356/bin/python
+
+from flask import Flask, request, render_template, send_from_directory # pylint: disable=import-error
+from werkzeug import secure_filename # pylint: disable=import-error
+from img2textSamarth import ocr_core
 import os
 import sys
 # import nltk
@@ -27,7 +29,8 @@ def index():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         text = ocr_core(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        words = {word:"" for word in [word.strip(string.punctuation) for word in text.split()]}
+        text = text.replace('\n', '<br>')
+        words = {word:"" for word in [word.strip(string.punctuation) for word in text.replace("<br>", " ").split()]}
         print(words, file=sys.stderr)
         return render_template("index.html", msg="File uploaded successfully", extracted_text=text, img_src=os.path.join(app.config['UPLOAD_FOLDER'], filename), words=words.items())#{word:url for (word, url) in zip(words, urls)})
     elif request.method == "GET":

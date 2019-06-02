@@ -6,7 +6,7 @@ import numpy as np
 def ocr_core(filename):
     print(filename)
     img = cv2.imread(filename)
-    img = cv2.resize(img, None, fx=2.5, fy=2.5, interpolation=cv2.INTER_CUBIC)
+    img = cv2.resize(img, None, fx=5, fy=5, interpolation=cv2.INTER_CUBIC)
 
     # Convert to gray
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
