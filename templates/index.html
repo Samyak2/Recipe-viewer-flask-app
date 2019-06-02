@@ -25,6 +25,13 @@
     {% else %}
     <p>Extracted text will appear here</p>
     {% endif %}
+
+    {% for word,url in words %}
+        <form method="GET" > <input type="text" value="{{word}}" name="word"> <input type="submit" value="Search for image"></form>
+        {% if url %}
+            <img src="{{url}}">
+        {% endif %}
+    {% endfor %}
 </body>
 
 </html>
