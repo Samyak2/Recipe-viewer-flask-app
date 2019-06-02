@@ -24,10 +24,10 @@ def ocr_core(img_path):
     #img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY, 31, 2)
 
     # Write the image after apply opencv to do some ...
-    # cv2.imwrite("thres.png", img)
+    cv2.imwrite("outs.png", img)
 
     # Recognize text with tesseract for python
-    result = pytesseract.image_to_string(img, lang="eng")
+    result = pytesseract.image_to_string(img)
 
     # Remove template file
     #os.remove(temp)

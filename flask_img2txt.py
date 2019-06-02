@@ -54,4 +54,5 @@ def uploaded_file(filename):
 
 #run flask app when script is run directly
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.debug = False
+    app.run(host="0.0.0.0", port=5010)

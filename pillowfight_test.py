@@ -2,10 +2,10 @@ import pillowfight # pylint: disable=import-error
 import PIL  # pylint: disable=import-error
 import pytesseract  # pylint: disable=import-error
 
-img = PIL.Image.open("static/uploads/test4.jpeg")
+img = PIL.Image.open("static/uploads/IMG-20190602-WA0119.jpg")
 # out = img
-out = img.resize(tuple(i * 5 for i in img.size), PIL.Image.LANCZOS)
-process = False
+out = img.resize(tuple(i * 2 for i in img.size), PIL.Image.LANCZOS)
+process = True
 if process:
     out = pillowfight.ace(img, slope=10,
         limit=1000,
@@ -37,6 +37,6 @@ if process:
     out = pillowfight.unpaper_noisefilter(out)
 
 
-print(pytesseract.image_to_string(out, lang="eng"))
+print(pytesseract.image_to_string(out))
 
 out.save("out.png")
