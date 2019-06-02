@@ -1,3 +1,5 @@
 static/uploads/
 output.png
 __pycache__/
+.DS_Store
+Flask testing/
