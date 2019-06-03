@@ -3,3 +3,7 @@ output.png
 __pycache__/
 .DS_Store
 Flask testing/
+deskew_out.png
+deskew_thresh.png
+outs.png
+.vscode/settings.json
