@@ -1,5 +1,3 @@
-#!/home/sarnayakhome/miniconda3/envs/py356/bin/python
-
 from flask import Flask, request, render_template, send_from_directory # pylint: disable=import-error
 from werkzeug import secure_filename # pylint: disable=import-error
 from img2textSamarth import ocr_core
