@@ -11,6 +11,7 @@ from nltk import tokenize
 app = Flask(__name__) #initialize flask object
 UPLOAD_FOLDER = 'static/uploads/' #folder where uploaded images are to be stored
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 words = OrderedDict() #ordered dictionary to store words and corresponding image url
 filename="" #to store name of uploaded image file
