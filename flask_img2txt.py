@@ -8,6 +8,7 @@ import sys
 from collections import OrderedDict
 import string
 from google_images_scraper import runSpider
+from nltk import tokenize
 
 app = Flask(__name__) #initialize flask object
 UPLOAD_FOLDER = 'static/uploads/' #folder where uploaded images are to be stored
@@ -29,10 +30,15 @@ def index():
         filename = secure_filename(file.filename) #get file name
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #save file to upload folder
         text = ocr_core(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #get image text using ocr_core function from img2txt
-        text = text.replace('\n', '<br>').lower() #replace newline with <br> so that it is rendered properly in the html, also converts to lowecase
-        words = OrderedDict((word,"") for word in [word.strip(string.punctuation) for word in text.replace("<br>", " ").split()]) #Get list of words from the text
+        text = text.replace('\n', '<br>') #replace newline with <br> so that it is rendered properly in the html, also converts to lowecase
+        words = OrderedDict(("".join(l for l in word if l.isalpha() or l==" "),"") for word in tokenize.sent_tokenize(text.lower().replace("<br>", ". ")) if len(word)>2) #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
         print(words, file=sys.stderr)
         #load index.html again with the appropriate message, image source, words list
+        if request.form.get("getall"):
+            for word in words:
+                runSpider(word) #runs google image scraper (from google_images_scraper.py) to get download the image
+                words[word] = os.path.join(app.config['UPLOAD_FOLDER'], word + " 0.jpg") #add image url to the dict
+                # print(words[word], file=sys.stderr)
         return render_template("index.html", msg="File uploaded successfully", extracted_text=text, img_src=os.path.join(app.config['UPLOAD_FOLDER'], filename), words=words.items())#{word:url for (word, url) in zip(words, urls)})
     #if any "Search for image button is clicked"
     elif request.method == "GET":
