@@ -17,7 +17,7 @@
     <p>{{msg}}</p>
     {% endif %}
     <h3>Result:</h3>
-    {% if img_src %}
+    {% if img_src and img_src != "static/uploads/" %}
     <img src="{{ img_src }}">
     {% endif %}
 

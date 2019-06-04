@@ -48,7 +48,7 @@ def index():
             words[word] = os.path.join(app.config['UPLOAD_FOLDER'], word + " 0.jpg") #add image url to the dict
             print(words[word], file=sys.stderr)
         #load index.html again with the appropriate message, image source, words list
-        return render_template("index.html", words=words.items(), msg="File uploaded successfully", extracted_text=text, img_src=os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return render_template("index.html", words=words.items(), extracted_text=text, img_src=os.path.join(app.config['UPLOAD_FOLDER'], filename))
     #when the page is first loaded
     else:
         return render_template("index.html")
