@@ -6,12 +6,13 @@ import sys
 from collections import OrderedDict
 import string
 from google_images_scraper import runSpider
-from nltk import tokenize
+import nltk
 #heroku2
 app = Flask(__name__) #initialize flask object
 UPLOAD_FOLDER = 'static/uploads/' #folder where uploaded images are to be stored
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+nltk.data.path.append('./nltk_data/')
 
 words = OrderedDict() #ordered dictionary to store words and corresponding image url
 filename="" #to store name of uploaded image file
@@ -30,7 +31,7 @@ def index():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #save file to upload folder
         text = ocr_core(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #get image text using ocr_core function from img2txt
         text = text.replace('\n', '<br>') #replace newline with <br> so that it is rendered properly in the html, also converts to lowecase
-        words = OrderedDict(("".join(l for l in word if l.isalpha() or l==" "),"") for word in tokenize.sent_tokenize(text.lower().replace("<br>", ". ")) if len(word)>2) #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
+        words = OrderedDict(("".join(l for l in word if l.isalpha() or l==" "),"") for word in nltk.tokenize.sent_tokenize(text.lower().replace("<br>", ". ")) if len(word)>2) #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
         print(words, file=sys.stderr)
         #load index.html again with the appropriate message, image source, words list
         if request.form.get("getall"):
