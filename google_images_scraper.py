@@ -29,7 +29,8 @@ class ImageSpider(scrapy.Spider):
 
 def runSpider(search_term):
     #runs spider from command line
-    os.system("scrapy runspider google_images_scraper.py  -a search_term=" + '"' + str(search_term) + '"')
+    if not os.path.isfile("static/uploads/" + search_term + " 0" + ".jpg"):
+        os.system("scrapy runspider google_images_scraper.py  -a search_term=" + '"' + str(search_term) + '"')
 
 #for testing
 if __name__ == "__main__":
