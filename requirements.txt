@@ -28,10 +28,12 @@ MarkupSafe==1.0
 matplotlib==3.0.0
 mccabe==0.6.1
 mkl-fft==1.0.6
+mkl-random==1.0.1
 more-itertools==4.3.0
 nltk==3.3
 numpy==1.15.2
 olefile==0.46
+opencv-python-headless==4.1.0.25
 parsel==1.5.0
 pathlib2==2.3.2
 Pillow==5.2.0
