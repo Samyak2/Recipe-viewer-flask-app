@@ -7,7 +7,7 @@ from collections import OrderedDict
 import string
 from google_images_scraper import runSpider
 from nltk import tokenize
-
+#heroku
 app = Flask(__name__) #initialize flask object
 UPLOAD_FOLDER = 'static/uploads/' #folder where uploaded images are to be stored
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
