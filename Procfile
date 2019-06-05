@@ -1,1 +1,1 @@
-web: gunicorn flask_img2txt:app
+web: gunicorn app:app

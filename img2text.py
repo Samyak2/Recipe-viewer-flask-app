@@ -17,24 +17,10 @@ def ocr_core(img_path):
     img = cv2.dilate(img, kernel, iterations=1)
     img = cv2.erode(img, kernel, iterations=1)
 
-    # Write image after removed noise
-    # cv2.imwrite("removed_noise.png", img)
-
-    # Apply threshold to get image with only black and white
-    #img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY, 31, 2)
-
-    # Write the image after apply opencv to do some ...
+    # Write the image after apply opencv
     cv2.imwrite("outs.png", img)
 
     # Recognize text with tesseract for python
     result = pytesseract.image_to_string(img)
 
-    # Remove template file
-    #os.remove(temp)
-
     return result
-
-# print("--- Start recognize text from image ---")
-# print(get_string(r"static/uploads/test4.jpeg"))
-
-# print("------ Done -------")

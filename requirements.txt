@@ -45,7 +45,6 @@ PyDispatcher==2.0.5
 pylint==2.1.1
 pyOpenSSL==18.0.0
 pyparsing==2.4.0
-pypillowfight==0.2.4
 pytesseract==0.2.6
 pytest==3.8.1
 pytest-runner==4.4

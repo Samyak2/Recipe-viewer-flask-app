@@ -1,13 +1,12 @@
-from flask import Flask, request, render_template, send_from_directory # pylint: disable=import-error
-from werkzeug import secure_filename # pylint: disable=import-error
-from img2textSamarth import ocr_core
+from flask import Flask, request, render_template, send_from_directory
+from werkzeug import secure_filename
+from img2text import ocr_core
 import os
 import sys
 from collections import OrderedDict
-import string
 from google_images_scraper import runSpider
 import nltk
-#heroku2
+
 app = Flask(__name__) #initialize flask object
 UPLOAD_FOLDER = 'static/uploads/' #folder where uploaded images are to be stored
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -54,13 +53,11 @@ def index():
         return render_template("index.html")
 
 #to show image
-@app.route("/static/uploads/<filename>")
-def uploaded_file(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename) #send image
+@app.route("/static/uploads/<file>")
+def uploaded_file(file):
+    return send_from_directory(UPLOAD_FOLDER, file) #send image
 
 #run flask app when script is run directly
 if __name__ == "__main__":
-    # app.debug = False
-    # app.run()
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 5000)) #get port number from heroku, or use 5000 if run locally
     app.run(debug=True, host='0.0.0.0', port=port)
