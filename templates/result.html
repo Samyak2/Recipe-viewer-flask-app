@@ -14,6 +14,9 @@
 </head>
 
 <body>
+    <form action="/" method="GET">
+    <input type="submit" value="Reset">
+    </form>
     {% if msg %}
     <p>{{msg}}</p>
     {% endif %}
@@ -33,7 +36,7 @@
 
     <form method="POST"><input type="submit" value="Get all images" name="getimgs"></form>
     {% for word,url in words %}
-        <form method="GET" > <input type="text" value="{{word}}" name="word"> <input type="submit" value="Search for image"></form>
+        <p>{{word}}</p>
         {% if url %}
             <img src="{{url}}">
         {% endif %}
@@ -68,8 +71,6 @@
     {% endfor %}
     </ol>
     {% endif %}
-    <script type="text/javascript">document.addEventListener("DOMContentLoaded",function(){window.addEventListener("pagehide",function(a){window.name+="\ue000"+window.pageXOffset+"\ue000"+window.pageYOffset});if(window.name&&-1<window.name.indexOf("\ue000")){var a=window.name.split("\ue000");3<=a.length&&(window.name=a[0],window.scrollTo(parseFloat(a[a.length-2]),parseFloat(a[a.length-1])))}});
-    </script>
 </body>
 
 </html>
