@@ -30,8 +30,8 @@ def index():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #save file to upload folder
         text = ocr_core(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #get image text using ocr_core function from img2txt
         text = text.replace('\n', '<br>') #replace newline with <br> so that it is rendered properly in the html, also converts to lowecase
-        words = OrderedDict(("".join(l for l in word if l.isalpha() or l==" "),"") for word in nltk.tokenize.sent_tokenize(text.lower().replace("<br><br>", ". ").replace("<br>", " ").replace("..",".")) if len(word)>2) #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
-        print(nltk.tokenize.sent_tokenize(text.lower().replace("<br><br>", ". ").replace("<br>", " ").replace("..",".")), file=sys.stderr)
+        words = OrderedDict(("".join(l for l in word if l.isalpha() or l==" "),"") for word in nltk.tokenize.sent_tokenize(text.lower().replace("<br>", ". ")) if len(word)>2) #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
+        print(words, file=sys.stderr)
         #load index.html again with the appropriate message, image source, words list
         if request.form.get("getall"):
             for word in words:
