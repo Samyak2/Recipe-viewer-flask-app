@@ -5,6 +5,7 @@ import os
 import sys
 from collections import OrderedDict
 from google_images_scraper import runSpider
+from classify_and_extract import classify_and_extract
 import nltk
 
 app = Flask(__name__) #initialize flask object
@@ -29,9 +30,12 @@ def index():
         filename = secure_filename(file.filename) #get file name
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #save file to upload folder
         text = ocr_core(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #get image text using ocr_core function from img2txt
+        print(text, file=sys.stderr)
         text = text.replace('\n', '<br>') #replace newline with <br> so that it is rendered properly in the html, also converts to lowecase
-        words = OrderedDict(("".join(l for l in word if l.isalpha() or l==" "),"") for word in nltk.tokenize.sent_tokenize(text.lower().replace("<br>", ". ")) if len(word)>2) #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
+        words = OrderedDict(("".join(l for l in word if l.isalpha() or l==" " or l.isdigit()),"") for word in nltk.tokenize.sent_tokenize(text.replace("<br><br>", ". ").replace("<br>", " ").replace("..",".")) if len(word)>2) #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
         print(words, file=sys.stderr)
+        for i in words:
+            print(classify_and_extract(i))
         #load index.html again with the appropriate message, image source, words list
         if request.form.get("getall"):
             for word in words:
