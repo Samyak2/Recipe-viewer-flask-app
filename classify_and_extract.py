@@ -37,7 +37,9 @@ def get_features(text):
     features = dict([(i, True) for i in features])
     return features
 
+import time
 def classify_and_extract(i, train=False, lines=300):
+    start = time.time()
     if train:
         count = 0
         json_file_name = "recipes_raw_nosource_fn.json"
@@ -93,13 +95,13 @@ def classify_and_extract(i, train=False, lines=300):
     # data = {'11/2 teaspoons salt': True}
     # print("Enter a string")
     # i = input()
-    data = [i]#['11/2 teaspoons salt', "1 tablespoon olive oil", "3 carrots, peeled and diced", "half of an onion, diced", "3 cloves garlic, minced", "8-10 cups chicken broth"]
-    inp = dict()
-    for i in data:
+    data = i#['11/2 teaspoons salt', "1 tablespoon olive oil", "3 carrots, peeled and diced", "half of an onion, diced", "3 cloves garlic, minced", "8-10 cups chicken broth"]
+    inp = []
+    for sent in data:
         # inp.append((get_features(i), True))
         # inp[get_features(i)] = True
-        inp.update(get_features(i))
-    # print(inp)
+        inp.append(get_features(sent))
+    # print("Inp", inp)
     if train:
         classifier = MaxentClassifier.train(training_set)
         outfile = open('my_pickle.pickle', 'wb')
@@ -121,36 +123,44 @@ def classify_and_extract(i, train=False, lines=300):
 
 
 
-    out = classifier.classify(inp)
-    # print(out)
+    outs = [] 
+    for i in inp:
+        outs.append(classifier.classify(i))
+    # print("Outs", outs)
+    output = []
+    counter = 0
+    # print("Input Data", data)
+    for out in outs:
+        if out == "ingredients":
+            output.append((out, ingparse(data[counter], expanded=True)))
 
-    if out == "ingredients":
-        return (out, ingparse(i, expanded=True))
-
-    else:
-        sentences = nltk.sent_tokenize(i.lower())
-        # words = nltk.word_tokenize("They " + i.lower())[1:]
-        words = []
-        for sentence in sentences:
-            sentence = "They " + sentence 
-            words = words + nltk.word_tokenize(sentence)
-        # pos = pos_tag(words)
-        pos = st.tag(words)
-        # st = StanfordPOSTagger("stanford-postagger/stanford-postagger.jar")
-        # st.tag(words)
-        # pos = [(word, map_tag('en-ptb', 'universal', tag)) for word, tag in pos]
-        # words = [word for word, tag in pos if "VB" in tag]
-        force_tags = dict()#{'bake': 'VB'}
-        new_tagged_words = [(word, force_tags.get(word, tag)) for word, tag in pos]
-        blacklist = ["is", "are"]
-        words = [word for word,tag in new_tagged_words if "VB" in tag and word not in blacklist]
-        # print(new_tagged_words)
-        # print(words)
-        return (out, words)
+        else:
+            sentences = nltk.sent_tokenize(data[counter].lower())
+            # words = nltk.word_tokenize("They " + i.lower())[1:]
+            words = []
+            for sentence in sentences:
+                sentence = "They " + sentence 
+                words = words + nltk.word_tokenize(sentence)
+            # pos = pos_tag(words)
+            pos = st.tag(words)
+            # st = StanfordPOSTagger("stanford-postagger/stanford-postagger.jar")
+            # st.tag(words)
+            # pos = [(word, map_tag('en-ptb', 'universal', tag)) for word, tag in pos]
+            # words = [word for word, tag in pos if "VB" in tag]
+            force_tags = dict()#{'bake': 'VB'}
+            new_tagged_words = [(word, force_tags.get(word, tag)) for word, tag in pos]
+            blacklist = ["is", "are"]
+            words = [word for word,tag in new_tagged_words if "VB" in tag and word not in blacklist]
+            # print(new_tagged_words)
+            # print(words)
+            output.append((out, words, data[counter]))
+        counter+=1
+    print("--------{} seconds-------".format(time.time()-start))
+    return output
 
 if __name__ == "__main__":
     # classify_and_extract("", train=True, lines=1000)
-    print(classify_and_extract("Bring a large pot of lightly salted water to a boil. Cook lasagna noodles in boiling water for 8 to 10 minutes. Drain noodles, and rinse with cold water. In a mixing bowl, combine ricotta cheese with egg, remaining parsley, and 1/2 teaspoon salt."))
-    print(classify_and_extract("2 cloves garlic, crushed"))
-    print(classify_and_extract("3/4 pound mozzarella cheese, sliced"))
-    print(classify_and_extract("12 lasagna noodles"))
+    # print(classify_and_extract("Bring a large pot of lightly salted water to a boil. Cook lasagna noodles in boiling water for 8 to 10 minutes. Drain noodles, and rinse with cold water. In a mixing bowl, combine ricotta cheese with egg, remaining parsley, and 1/2 teaspoon salt."))
+    print(classify_and_extract(["2 cloves garlic, crushed", "3/4 pound mozzarella cheese, sliced", "12 lasagna noodles","Bring a large pot of lightly salted water to a boil"]))
+    # print(classify_and_extract("3/4 pound mozzarella cheese, sliced"))
+    # print(classify_and_extract("12 lasagna noodles"))

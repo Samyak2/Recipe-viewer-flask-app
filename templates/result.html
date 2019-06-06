@@ -14,14 +14,6 @@
 </head>
 
 <body>
-    <h3>Upload image:</h3>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="file"><br>
-        <input type="checkbox" name="getall" value="Get all images"> Get all images <br>
-        <input type="checkbox" name="geting" value="Get Ingredients and Steps"> Get Ingredients and Steps <br>
-        <input type="submit" value="Upload">
-    </form>
-
     {% if msg %}
     <p>{{msg}}</p>
     {% endif %}
