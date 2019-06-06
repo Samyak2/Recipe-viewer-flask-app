@@ -17,19 +17,32 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 nltk.data.path.append('./nltk_data/')
 app.secret_key = "Secret key don't share pls"
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 # words = OrderedDict() #ordered dictionary to store words and corresponding image url
 # filename="" #to store name of uploaded image file
 # text="" #to store text extracted from image
-@app.route("/", methods=["GET", "POST"]) #first argument is url where the page will be (relative to localhost:5000)
-def index():
+@app.route("/result", methods=["GET", "POST"]) #first argument is url where the page will be (relative to localhost:5000)
+def result():
     # global filename
     # global text
     # global words #use global variables
     #if image is uploaded
-    que = Queue()
-    if request.method == "POST":
+    # que = Queue()
+    if request.method == "POST" and "ingsteps" in request.form:
+        session["classified_op"] = classify_and_extract([*session["words"]])
+        print(session["classified_op"], file=sys.stderr)
+        return render_template("result.html", words=session["words"].items(), extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), sentences=session["classified_op"])
+    elif request.method == "POST" and "getimgs" in request.form:
+        for word in session["words"]:
+            runSpider(word) #runs google image scraper (from google_images_scraper.py) to get download the image
+            session["words"][word] = os.path.join(app.config['UPLOAD_FOLDER'], word + " 0.jpg") #add image url to the dict
+        return render_template("result.html", words=session["words"].items(), extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), sentences=session["classified_op"])
+    elif request.method == "POST":
         if "file" not in request.files: #if file is not uploaded
-            return render_template("index.html", msg="No file selected") #Display message, {{msg}} in the html is replaced with the message
+            return render_template("result.html", msg="No file selected") #Display message, {{msg}} in the html is replaced with the message
         file = request.files["file"] #get uploaded file
         # filename = secure_filename(file.filename) #get file name
         session["filename"] = secure_filename(file.filename)
@@ -41,35 +54,34 @@ def index():
         # print(session["words"], file=sys.stderr)
         # for i in session["words"]:
         # print(classify_and_extract([*session["words"]]))
-        t = Thread(target=lambda q, arg1: q.put(classify_and_extract(arg1)), args=(que,[*session["words"]]))
-        # thread = Thread(target=classify_and_extract, args=([*session["words"]],))
-        t.start()
+        # t = Thread(target=lambda q, arg1, arg2: q.put(classify_and_extract(arg1,arg2)), args=(que,[*session["words"]],session["classified_op"]))
+        # t = Thread(target=classify_and_extract, args=([*session["words"]],session["classified_op"]))
+        # t.start()
         # t.join()
         if request.form.get("geting"): 
-            session["classified_op"] = que.get()
+            session["classified_op"] = classify_and_extract([*session["words"]])
             print(session["classified_op"])
-        else:
-            session["classified_op"] = []
-        #load index.html again with the appropriate message, image source, words list
+        #load result.html again with the appropriate message, image source, words list
         if request.form.get("getall"):
             for word in session["words"]:
                 runSpider(word) #runs google image scraper (from google_images_scraper.py) to get download the image
                 session["words"][word] = os.path.join(app.config['UPLOAD_FOLDER'], word + " 0.jpg") #add image url to the dict
                 # print(words[word], file=sys.stderr)
-        return render_template("index.html", msg="File uploaded successfully", extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), words=session["words"].items(), sentences=session["classified_op"])#{word:url for (word, url) in zip(words, urls)})
+        return render_template("result.html", msg="File uploaded successfully", extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), words=session["words"].items(), sentences=session["classified_op"])#{word:url for (word, url) in zip(words, urls)})
     #if any "Search for image button is clicked"
     elif request.method == "GET" and "words" in session:
-        session["classified_op"] = que.get()
+        # session["classified_op"] = que.get()
+        # print(session["classified_op"], file=sys.stderr)
         word = request.args.get("word") #get word
         if word is not None: #if word is found
             runSpider(word) #runs google image scraper (from google_images_scraper.py) to get download the image
             session["words"][word] = os.path.join(app.config['UPLOAD_FOLDER'], word + " 0.jpg") #add image url to the dict
             print(session["words"][word], file=sys.stderr)
-        #load index.html again with the appropriate message, image source, words list
-        return render_template("index.html", words=session["words"].items(), extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), sentences=session["classified_op"])
+        #load result.html again with the appropriate message, image source, words list
+        return render_template("result.html", words=session["words"].items(), extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), sentences=session["classified_op"])
     #when the page is first loaded
     else:
-        return render_template("index.html")
+        return render_template("result.html")
 
 #to show image
 @app.route("/static/uploads/<file>")

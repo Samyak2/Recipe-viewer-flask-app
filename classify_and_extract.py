@@ -38,7 +38,8 @@ def get_features(text):
     return features
 
 import time
-def classify_and_extract(i, train=False, lines=300):
+def classify_and_extract(i, output=[], train=False, lines=300):
+    output = []
     start = time.time()
     if train:
         count = 0
@@ -127,7 +128,7 @@ def classify_and_extract(i, train=False, lines=300):
     for i in inp:
         outs.append(classifier.classify(i))
     # print("Outs", outs)
-    output = []
+    # output = []
     counter = 0
     # print("Input Data", data)
     for out in outs:

@@ -15,65 +15,12 @@
 
 <body>
     <h3>Upload image:</h3>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" action="result">
         <input type="file" name="file"><br>
         <input type="checkbox" name="getall" value="Get all images"> Get all images <br>
         <input type="checkbox" name="geting" value="Get Ingredients and Steps"> Get Ingredients and Steps <br>
         <input type="submit" value="Upload">
     </form>
-
-    {% if msg %}
-    <p>{{msg}}</p>
-    {% endif %}
-    <h3>Result:</h3>
-    {% if img_src and img_src != "static/uploads/" %}
-    <img src="{{ img_src }}">
-    {% endif %}
-
-    {% if extracted_text %}
-    {% autoescape false %}
-    <p>Text extracted from image is <br>
-         <b>{{extracted_text}}</b></p>
-    {% endautoescape %}
-    {% else %}
-    <p>Extracted text will appear here</p>
-    {% endif %}
-
-    {% for word,url in words %}
-        <form method="GET" > <input type="text" value="{{word}}" name="word"> <input type="submit" value="Search for image"></form>
-        {% if url %}
-            <img src="{{url}}">
-        {% endif %}
-    {% endfor %}
-
-    {% if sentences != [] %}
-    <h3>Ingredients and Steps</h3>
-    <table border="True">
-        <tr>
-            <td>Name</td>
-            <td>Unit</td>
-            <td>Quantity</td>
-        </tr>
-        {% for sentence in sentences %}
-            {% if sentence[0] == "ingredients" %}
-            <tr>
-                <td>{{sentence[1]["name"]}}</td>
-                <td>{{sentence[1]["unit"]}}</td>
-                <td>{{sentence[1]["quantity"]}}</td>
-            </tr>
-            {% endif %}
-        {% endfor %}
-    </table>
-    <ol>
-    {% for sentence in sentences %}
-        {% if sentence[0] == "steps" %}
-            <li>{{sentence[2]}}</li>
-        {% endif %}
-    {% endfor %}
-    </ol>
-    {% endif %}
-    <script type="text/javascript">document.addEventListener("DOMContentLoaded",function(){window.addEventListener("pagehide",function(a){window.name+="\ue000"+window.pageXOffset+"\ue000"+window.pageYOffset});if(window.name&&-1<window.name.indexOf("\ue000")){var a=window.name.split("\ue000");3<=a.length&&(window.name=a[0],window.scrollTo(parseFloat(a[a.length-2]),parseFloat(a[a.length-1])))}});
-    </script>
 </body>
 
 </html>
