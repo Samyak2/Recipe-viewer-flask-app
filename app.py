@@ -9,6 +9,8 @@ from classify_and_extract import classify_and_extract
 import nltk
 from threading import Thread
 from queue import Queue
+from youtube_video_scraper import runYouTubeSpider
+from tenor_gifs_scraper import runGIFSpider
 
 app = Flask(__name__) #initialize flask object
 UPLOAD_FOLDER = 'static/uploads/' #folder where uploaded images are to be stored
@@ -32,16 +34,70 @@ def result():
     # global words #use global variables
     #if image is uploaded
     # que = Queue()
+    if "video_urls" not in session:
+        session["video_urls"] = []
+    if "gif_urls" not in session:
+        session["gif_urls"] = []
     if request.method == "POST" and "ingsteps" in request.form:
         # print("These are wordsssssss: ",session["words"], file=sys.stderr)
         session["classified_op"] = classify_and_extract([i for i,j in session["words"]])
         # print(session["classified_op"], file=sys.stderr)
-        return render_template("result.html", words=session["words"], extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), sentences=session["classified_op"])
+        return render_template("result.html", 
+                words=session["words"], 
+                extracted_text=session["text"], 
+                img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
+                session["filename"]), 
+                sentences=session["classified_op"],
+                video_urls = session["video_urls"],
+                gif_urls = session["gif_urls"]
+                )
+    elif request.method == "POST" and "getvideos" in request.form:
+        session["video_urls"] = []
+        print(session["classified_op"], file=sys.stderr)
+        allverbs = []
+        for clas, verbs, sent in session["classified_op"]:
+            allverbs.append(sent)
+        print(allverbs, file=sys.stderr)
+        session["video_urls"].extend(runYouTubeSpider(allverbs))
+        return render_template("result.html", 
+                words=session["words"], 
+                extracted_text=session["text"], 
+                img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
+                session["filename"]), 
+                sentences=session["classified_op"],
+                video_urls = session["video_urls"],
+                gif_urls = session["gif_urls"]
+                )
+    elif request.method == "POST" and "getgifs" in request.form:
+        session["gif_urls"] = []
+        print(session["classified_op"], file=sys.stderr)
+        allverbs = []
+        for clas, verbs, sent in session["classified_op"]:
+            allverbs.extend(verbs)
+        print(allverbs, file=sys.stderr)
+        session["gif_urls"].extend(runGIFSpider(allverbs))
+        return render_template("result.html", 
+                words=session["words"], 
+                extracted_text=session["text"], 
+                img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
+                session["filename"]), 
+                sentences=session["classified_op"],
+                video_urls = session["video_urls"],
+                gif_urls = session["gif_urls"]
+                )
     elif request.method == "POST" and "getimgs" in request.form:
         for pair in session["words"]:
             runSpider(pair[0]) #runs google image scraper (from google_images_scraper.py) to get download the image
             pair[1] = os.path.join(app.config['UPLOAD_FOLDER'], pair[0] + " 0.jpg") #add image url to the dict
-        return render_template("result.html", words=session["words"], extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), sentences=session["classified_op"])
+        return render_template("result.html", 
+                words=session["words"], 
+                extracted_text=session["text"], 
+                img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
+                session["filename"]), 
+                sentences=session["classified_op"],
+                video_urls = session["video_urls"],
+                gif_urls = session["gif_urls"]
+                )
     elif request.method == "POST":
         if "file" not in request.files: #if file is not uploaded
             return render_template("result.html", msg="No file selected") #Display message, {{msg}} in the html is replaced with the message
@@ -72,7 +128,16 @@ def result():
                 runSpider(pair[0]) #runs google image scraper (from google_images_scraper.py) to get download the image
                 pair[1] = os.path.join(app.config['UPLOAD_FOLDER'], pair[0] + " 0.jpg") #add image url to the dict
                 # print(words[word], file=sys.stderr)
-        return render_template("result.html", msg="File uploaded successfully", extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), words=session["words"], sentences=session["classified_op"])#{word:url for (word, url) in zip(words, urls)})
+        return render_template("result.html", 
+            msg="File uploaded successfully", 
+            extracted_text=session["text"], 
+            img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
+            session["filename"]), 
+            words=session["words"], 
+            sentences=session["classified_op"],
+            video_urls = session["video_urls"],
+            gif_urls = session["gif_urls"]
+            )#{word:url for (word, url) in zip(words, urls)})
     #if any "Search for image button is clicked"
     # elif request.method == "GET" and "words" in session:
     #     # session["classified_op"] = que.get()

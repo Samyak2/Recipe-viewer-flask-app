@@ -71,6 +71,23 @@
     {% endfor %}
     </ol>
     {% endif %}
+    <br><br>
+    <form method="POST"><input type="submit" value="Get Videos" name="getvideos"></form>
+    {% if video_urls %}
+        {% for video_url in video_urls %}
+            <iframe src={{video_url}}>
+            </iframe>
+        {% endfor %}
+    {% endif %}
+    
+    <br><br>
+    <form method="POST"><input type="submit" value="Get GIFs" name="getgifs" style="width: 20%; height: 20%;"></form>
+    {% if gif_urls %}
+        {% for gif_url in gif_urls %}
+            <img src={{gif_url}}>
+            </img>
+        {% endfor %}
+    {% endif %}
 </body>
 
 </html>
