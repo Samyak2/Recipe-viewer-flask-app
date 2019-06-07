@@ -38,6 +38,14 @@ def result():
         session["video_urls"] = []
     if "gif_urls" not in session:
         session["gif_urls"] = []
+    if "classified_op" not in session:
+        session["classified_op"] = []
+    if "words" in session:
+        for pair in session["words"]:
+            pair[1] = os.path.join(app.config['UPLOAD_FOLDER'], pair[0] + " 0.jpg")
+    else:
+        session["words"] = []
+    print(session["words"], file=sys.stderr)
     if request.method == "POST" and "ingsteps" in request.form:
         # print("These are wordsssssss: ",session["words"], file=sys.stderr)
         session["classified_op"] = classify_and_extract([i for i,j in session["words"]])
@@ -55,8 +63,9 @@ def result():
         session["video_urls"] = []
         print(session["classified_op"], file=sys.stderr)
         allverbs = []
-        for clas, verbs, sent in session["classified_op"]:
-            allverbs.append(sent)
+        for sent in session["classified_op"]:
+            if sent[0] == "steps":
+                allverbs.append(sent[2])
         print(allverbs, file=sys.stderr)
         session["video_urls"].extend(runYouTubeSpider(allverbs))
         return render_template("result.html", 
@@ -72,8 +81,9 @@ def result():
         session["gif_urls"] = []
         print(session["classified_op"], file=sys.stderr)
         allverbs = []
-        for clas, verbs, sent in session["classified_op"]:
-            allverbs.extend(verbs)
+        for sent in session["classified_op"]:
+            if sent[0] == "steps":
+                allverbs.extend(sent[1])
         print(allverbs, file=sys.stderr)
         session["gif_urls"].extend(runGIFSpider(allverbs))
         return render_template("result.html", 
@@ -89,6 +99,7 @@ def result():
         for pair in session["words"]:
             runSpider(pair[0]) #runs google image scraper (from google_images_scraper.py) to get download the image
             pair[1] = os.path.join(app.config['UPLOAD_FOLDER'], pair[0] + " 0.jpg") #add image url to the dict
+        print(session["words"], file=sys.stderr)
         return render_template("result.html", 
                 words=session["words"], 
                 extracted_text=session["text"], 
@@ -99,6 +110,7 @@ def result():
                 gif_urls = session["gif_urls"]
                 )
     elif request.method == "POST":
+        print("Running pytesseract!!!!!!!!!!!!!!", file=sys.stderr)
         if "file" not in request.files: #if file is not uploaded
             return render_template("result.html", msg="No file selected") #Display message, {{msg}} in the html is replaced with the message
         file = request.files["file"] #get uploaded file

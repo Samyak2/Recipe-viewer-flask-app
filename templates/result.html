@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Image to text converter</title>
+    <title>Recipe Viewer</title>
     
     {% if msg == "aFile uploaded successfully" %}
     <script>
@@ -34,7 +34,7 @@
     <p>Extracted text will appear here</p>
     {% endif %}
 
-    <form method="POST"><input type="submit" value="Get all images" name="getimgs"></form>
+    <form method="POST"><input type="submit" value="Refresh images" name="getimgs" style="width: 50%; height: 100%;"></form>
     {% for word,url in words %}
         <p>{{word}}</p>
         {% if url %}
@@ -43,7 +43,7 @@
     {% endfor %}
     
     <br><br>
-    <form method="POST"><input type="submit" value="Get Ingredients and Steps" name="ingsteps"></form>
+    <form method="POST"><input type="submit" value="Get Ingredients and Steps" name="ingsteps" style="width: 50%; height: 100%;"></form>
     {% if sentences != [] %}
     <h3>Ingredients:</h3>
     <table border="True">
@@ -72,7 +72,7 @@
     </ol>
     {% endif %}
     <br><br>
-    <form method="POST"><input type="submit" value="Get Videos" name="getvideos"></form>
+    <form method="POST"><input type="submit" value="Get Videos" name="getvideos" style="width: 50%; height: 100%;"></form>
     {% if video_urls %}
         {% for video_url in video_urls %}
             <iframe src={{video_url}}>
@@ -81,7 +81,7 @@
     {% endif %}
     
     <br><br>
-    <form method="POST"><input type="submit" value="Get GIFs" name="getgifs" style="width: 20%; height: 20%;"></form>
+    <form method="POST"><input type="submit" value="Get GIFs" name="getgifs" style="width: 50%; height: 100%;"></form>
     {% if gif_urls %}
         {% for gif_url in gif_urls %}
             <img src={{gif_url}}>
