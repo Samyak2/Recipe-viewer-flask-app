@@ -48,16 +48,16 @@
     <h3>Ingredients:</h3>
     <table border="True">
         <tr>
-            <td>Name</td>
-            <td>Unit</td>
             <td>Quantity</td>
+            <td>Unit</td>
+            <td>Name</td>
         </tr>
         {% for sentence in sentences %}
             {% if sentence[0] == "ingredients" %}
             <tr>
-                <td>{{sentence[1]["name"]}}</td>
-                <td>{{sentence[1]["unit"]}}</td>
                 <td>{{sentence[1]["quantity"]}}</td>
+                <td>{{sentence[1]["unit"]}}</td>
+                <td>{{sentence[1]["name"]}}</td>
             </tr>
             {% endif %}
         {% endfor %}
