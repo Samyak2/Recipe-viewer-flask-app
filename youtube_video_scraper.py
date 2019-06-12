@@ -18,7 +18,7 @@ class YouTubeSpider(scrapy.Spider):
     def parse(self, response):
         #get video links and print
         video_urls = response.xpath("//h3//a/@href").extract()
-        video_urls = ["https://www.youtube.com" + i for i in video_urls if "/watch?v=" in i] #add base url to each link (because the links we got are relative)
+        # video_urls = ["https://www.youtube.com" + i for i in video_urls if "/watch?v=" in i] #add base url to each link (because the links we got are relative)
         # for video_url in video_urls:
         #     print(video_url)
             # return {"url": video_url}
@@ -38,8 +38,13 @@ class YouTubeSpider(scrapy.Spider):
 def runYouTubeSpider(search_terms):
     # os.system("scrapy runspider youtube_video_scraper.py --nolog -a search_term=" + search_term)
     op = subprocess.check_output("scrapy runspider youtube_video_scraper.py --nolog -a search_terms=" + "\"" + ",".join(search_terms) + "\"", shell=True, universal_newlines=True)
-    op = op.replace("watch?v=", "embed/").split("\n")
-    op = [i for i in op if i]
+    # op = op.replace("watch?v=", "embed/").split("\n")
+    # print(op)
+    op = op.split("\n")
+    op = [i.replace("/watch?v=", "") for i in op if "/watch?v=" in i]
+    # op = [i.replace("/watch?v=", "") for i in op]
+    # op = op.replace("/watch?=", "")
+    # op = [i for i in op if i]
     print(op)
     return op
     # process = CrawlerProcess()

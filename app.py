@@ -68,6 +68,8 @@ def result():
                 allverbs.append(sent[2])
         print(allverbs, file=sys.stderr)
         session["video_urls"].extend(runYouTubeSpider(allverbs))
+        video_urls = "https://www.youtube.com/embed/" + session["video_urls"][0] + "?playlist=" + ",".join(session["video_urls"][1:]) + "&autoplay=1"
+        session["video_urls"] = video_urls
         return render_template("result.html", 
                 words=session["words"], 
                 extracted_text=session["text"], 

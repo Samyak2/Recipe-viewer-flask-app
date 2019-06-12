@@ -74,10 +74,8 @@
     <br><br>
     <form method="POST"><input type="submit" value="Get Videos" name="getvideos" style="width: 50%; height: 100%;"></form>
     {% if video_urls %}
-        {% for video_url in video_urls %}
-            <iframe src={{video_url}}>
-            </iframe>
-        {% endfor %}
+        <iframe src={{video_urls}} width="720" height="405" allowfullscreen>
+        </iframe>
     {% endif %}
     
     <br><br>
