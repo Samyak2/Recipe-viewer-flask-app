@@ -48,7 +48,12 @@ def result():
     print(session["words"], file=sys.stderr)
     if request.method == "POST" and "ingsteps" in request.form:
         # print("These are wordsssssss: ",session["words"], file=sys.stderr)
-        session["classified_op"] = classify_and_extract([i for i,j in session["words"]])
+        classified_op = classify_and_extract([i for i,j in session["words"]])
+        for lis in classified_op:
+            if lis[0] == "ingredients":
+                runSpider(lis[1]["name"])
+                lis.append(os.path.join(app.config['UPLOAD_FOLDER'], lis[1]["name"] + " 0.jpg"))
+        session["classified_op"] = classified_op
         # print(session["classified_op"], file=sys.stderr)
         return render_template("result.html", 
                 words=session["words"], 
@@ -97,23 +102,23 @@ def result():
                 video_urls = session["video_urls"],
                 gif_urls = session["gif_urls"]
                 )
-    elif request.method == "POST" and "getimgs" in request.form:
-        for pair in session["words"]:
-            runSpider(pair[0]) #runs google image scraper (from google_images_scraper.py) to get download the image
-            pair[1] = os.path.join(app.config['UPLOAD_FOLDER'], pair[0] + " 0.jpg") #add image url to the dict
-        print(session["words"], file=sys.stderr)
-        return render_template("result.html", 
-                words=session["words"], 
-                extracted_text=session["text"], 
-                img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
-                session["filename"]), 
-                sentences=session["classified_op"],
-                video_urls = session["video_urls"],
-                gif_urls = session["gif_urls"]
-                )
+    # elif request.method == "POST" and "getimgs" in request.form:
+    #     for pair in session["words"]:
+    #         runSpider(pair[0]) #runs google image scraper (from google_images_scraper.py) to get download the image
+    #         pair[1] = os.path.join(app.config['UPLOAD_FOLDER'], pair[0] + " 0.jpg") #add image url to the dict
+    #     print(session["words"], file=sys.stderr)
+    #     return render_template("result.html", 
+    #             words=session["words"], 
+    #             extracted_text=session["text"], 
+    #             img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
+    #             session["filename"]), 
+    #             sentences=session["classified_op"],
+    #             video_urls = session["video_urls"],
+    #             gif_urls = session["gif_urls"]
+    #             )
     elif request.method == "POST":
         print("Running pytesseract!!!!!!!!!!!!!!", file=sys.stderr)
-        if "file" not in request.files: #if file is not uploaded
+        if "file" not in request.files or request.files["file"].filename == "": #if file is not uploaded
             return render_template("result.html", msg="No file selected") #Display message, {{msg}} in the html is replaced with the message
         file = request.files["file"] #get uploaded file
         # filename = secure_filename(file.filename) #get file name

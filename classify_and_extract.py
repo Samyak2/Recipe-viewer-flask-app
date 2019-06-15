@@ -133,7 +133,7 @@ def classify_and_extract(i, output=[], train=False, lines=300):
     # print("Input Data", data)
     for out in outs:
         if out == "ingredients":
-            output.append((out, ingparse(data[counter], expanded=True)))
+            output.append([out, ingparse(data[counter], expanded=True)])
 
         else:
             sentences = nltk.sent_tokenize(data[counter].lower())

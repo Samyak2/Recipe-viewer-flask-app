@@ -34,13 +34,13 @@
     <p>Extracted text will appear here</p>
     {% endif %}
 
-    <form method="POST"><input type="submit" value="Refresh images" name="getimgs" style="width: 50%; height: 100%;"></form>
+    <!-- <form method="POST"><input type="submit" value="Refresh images" name="getimgs" style="width: 50%; height: 100%;"></form>
     {% for word,url in words %}
         <p>{{word}}</p>
         {% if url %}
             <img src="{{url}}">
         {% endif %}
-    {% endfor %}
+    {% endfor %} -->
     
     <br><br>
     <form method="POST"><input type="submit" value="Get Ingredients and Steps" name="ingsteps" style="width: 50%; height: 100%;"></form>
@@ -51,6 +51,7 @@
             <td>Quantity</td>
             <td>Unit</td>
             <td>Name</td>
+            <td>Image</td>
         </tr>
         {% for sentence in sentences %}
             {% if sentence[0] == "ingredients" %}
@@ -58,6 +59,7 @@
                 <td>{{sentence[1]["quantity"]}}</td>
                 <td>{{sentence[1]["unit"]}}</td>
                 <td>{{sentence[1]["name"]}}</td>
+                <td><img src="{{sentence[2]}}"></img></td>
             </tr>
             {% endif %}
         {% endfor %}
