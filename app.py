@@ -73,7 +73,7 @@ def result():
                 allverbs.append(sent[2])
         print(allverbs, file=sys.stderr)
         session["video_urls"].extend(runYouTubeSpider(allverbs))
-        video_urls = "https://www.youtube.com/embed/" + session["video_urls"][0] + "?playlist=" + ",".join(session["video_urls"][1:]) + "&autoplay=1"
+        video_urls = "https://www.youtube.com/embed/" + session["video_urls"][0] + "?playlist=" + ",".join(session["video_urls"][1:])# + "&autoplay=1"
         session["video_urls"] = video_urls
         return render_template("result.html", 
                 words=session["words"], 
@@ -137,7 +137,12 @@ def result():
         # t.start()
         # t.join()
         if request.form.get("geting"): 
-            session["classified_op"] = classify_and_extract([i for i,j in session["words"]])
+            classified_op = classify_and_extract([i for i,j in session["words"]])
+            for lis in classified_op:
+                if lis[0] == "ingredients":
+                    runSpider(lis[1]["name"])
+                    lis.append(os.path.join(app.config['UPLOAD_FOLDER'], lis[1]["name"] + " 0.jpg"))
+            session["classified_op"] = classified_op
             print(session["classified_op"])
         if "classified_op" not in session:
             session["classified_op"] = []

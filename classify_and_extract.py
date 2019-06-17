@@ -142,8 +142,8 @@ def classify_and_extract(i, output=[], train=False, lines=300):
             for sentence in sentences:
                 sentence = "They " + sentence 
                 words = words + nltk.word_tokenize(sentence)
-            # pos = pos_tag(words)
-            pos = st.tag(words)
+            pos = pos_tag(words)
+            # pos = st.tag(words)
             # st = StanfordPOSTagger("stanford-postagger/stanford-postagger.jar")
             # st.tag(words)
             # pos = [(word, map_tag('en-ptb', 'universal', tag)) for word, tag in pos]
@@ -156,7 +156,7 @@ def classify_and_extract(i, output=[], train=False, lines=300):
             # print(words)
             output.append((out, words, data[counter]))
         counter+=1
-    print("--------{} seconds-------".format(time.time()-start))
+    print("--------{} seconds--------".format(time.time()-start))
     return output
 
 if __name__ == "__main__":

@@ -56,10 +56,10 @@
         {% for sentence in sentences %}
             {% if sentence[0] == "ingredients" %}
             <tr>
-                <td>{{sentence[1]["quantity"]}}</td>
-                <td>{{sentence[1]["unit"]}}</td>
-                <td>{{sentence[1]["name"]}}</td>
-                <td><img src="{{sentence[2]}}"></img></td>
+                <td align="center">{{sentence[1]["quantity"]}}</td>
+                <td align="center">{{sentence[1]["unit"]}}</td>
+                <td align="center">{{sentence[1]["name"]}}</td>
+                <td align="center"><img src="{{sentence[2]}}"></img></td>
             </tr>
             {% endif %}
         {% endfor %}
