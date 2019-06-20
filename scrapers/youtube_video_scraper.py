@@ -37,7 +37,7 @@ class YouTubeSpider(scrapy.Spider):
 
 def runYouTubeSpider(search_terms):
     # os.system("scrapy runspider youtube_video_scraper.py --nolog -a search_term=" + search_term)
-    op = subprocess.check_output("scrapy runspider youtube_video_scraper.py --nolog -a search_terms=" + "\"" + ",".join(search_terms) + "\"", shell=True, universal_newlines=True)
+    op = subprocess.check_output("scrapy runspider scrapers/youtube_video_scraper.py --nolog -a search_terms=" + "\"" + ",".join(search_terms) + "\"", shell=True, universal_newlines=True)
     # op = op.replace("watch?v=", "embed/").split("\n")
     # print(op)
     op = op.split("\n")

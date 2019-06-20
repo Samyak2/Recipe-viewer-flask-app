@@ -32,7 +32,7 @@ def runSpider(search_term):
     #runs spider from command line
     if not os.path.isfile("static/uploads/" + search_term + " 0" + ".jpg"):
         # os.system("scrapy runspider google_images_scraper.py  -a search_term=" + '"' + str(search_term) + '"')
-        subprocess.Popen(["scrapy", "runspider", "google_images_scraper.py",  "-a", "search_term=" + str(search_term)])
+        subprocess.Popen(["scrapy", "runspider", "scrapers/google_images_scraper.py",  "-a", "search_term=" + str(search_term)])
 
 #for testing
 if __name__ == "__main__":

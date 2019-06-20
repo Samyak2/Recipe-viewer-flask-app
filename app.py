@@ -4,13 +4,13 @@ from img2text import ocr_core
 import os
 import sys
 from collections import OrderedDict
-from google_images_scraper import runSpider
+from scrapers.google_images_scraper import runSpider
 from classify_and_extract import classify_and_extract
 import nltk
 from threading import Thread
 from queue import Queue
-from youtube_video_scraper import runYouTubeSpider
-from tenor_gifs_scraper import runGIFSpider
+from scrapers.youtube_video_scraper import runYouTubeSpider
+from scrapers.tenor_gifs_scraper import runGIFSpider
 
 app = Flask(__name__) #initialize flask object
 UPLOAD_FOLDER = 'static/uploads/' #folder where uploaded images are to be stored

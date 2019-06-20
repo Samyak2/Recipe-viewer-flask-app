@@ -25,7 +25,7 @@ class TenorGIFSpider(scrapy.Spider):
             yield scrapy.Request(self.start_urls[0], callback=self.parse, headers={"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36"})
 
 def runGIFSpider(search_terms):
-    op = subprocess.check_output("scrapy runspider tenor_gifs_scraper.py --nolog -a search_terms=" + "\"" + ",".join(search_terms) + "\"", shell=True, universal_newlines=True)
+    op = subprocess.check_output("scrapy runspider scrapers/tenor_gifs_scraper.py --nolog -a search_terms=" + "\"" + ",".join(search_terms) + "\"", shell=True, universal_newlines=True)
     op = op.split("\n")
     op = [i for i in op if i]
     print(op)
