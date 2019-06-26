@@ -99,6 +99,15 @@ def result():
                 video_urls = session["video_urls"],
                 gif_urls = session["gif_urls"]
                 )
+    elif request.method == "POST" and "refreshimgs" in request.form:
+        return render_template("result.html", 
+                words=session["words"], 
+                extracted_text=session["text"], 
+                img_src=session["filename"], 
+                sentences=session["classified_op"],
+                video_urls = session["video_urls"],
+                gif_urls = session["gif_urls"]
+                )
     # elif request.method == "POST" and "getimgs" in request.form:
     #     for pair in session["words"]:
     #         runSpider(pair[0]) #runs google image scraper (from google_images_scraper.py) to get download the image
