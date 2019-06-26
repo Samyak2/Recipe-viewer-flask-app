@@ -58,8 +58,7 @@ def result():
         return render_template("result.html", 
                 words=session["words"], 
                 extracted_text=session["text"], 
-                img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
-                session["filename"]), 
+                img_src=session["filename"], 
                 sentences=session["classified_op"],
                 video_urls = session["video_urls"],
                 gif_urls = session["gif_urls"]
@@ -78,8 +77,7 @@ def result():
         return render_template("result.html", 
                 words=session["words"], 
                 extracted_text=session["text"], 
-                img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
-                session["filename"]), 
+                img_src=session["filename"], 
                 sentences=session["classified_op"],
                 video_urls = session["video_urls"],
                 gif_urls = session["gif_urls"]
@@ -96,8 +94,7 @@ def result():
         return render_template("result.html", 
                 words=session["words"], 
                 extracted_text=session["text"], 
-                img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
-                session["filename"]), 
+                img_src=session["filename"], 
                 sentences=session["classified_op"],
                 video_urls = session["video_urls"],
                 gif_urls = session["gif_urls"]
@@ -110,8 +107,7 @@ def result():
     #     return render_template("result.html", 
     #             words=session["words"], 
     #             extracted_text=session["text"], 
-    #             img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
-    #             session["filename"]), 
+    #             img_src=session["filename"], 
     #             sentences=session["classified_op"],
     #             video_urls = session["video_urls"],
     #             gif_urls = session["gif_urls"]
@@ -120,14 +116,18 @@ def result():
         print("Running pytesseract!!!!!!!!!!!!!!", file=sys.stderr)
         if "file" not in request.files or request.files["file"].filename == "": #if file is not uploaded
             return render_template("result.html", msg="No file selected") #Display message, {{msg}} in the html is replaced with the message
-        file = request.files["file"] #get uploaded file
-        # filename = secure_filename(file.filename) #get file name
-        session["filename"] = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], session["filename"])) #save file to upload folder
-        session["text"] = ocr_core(os.path.join(app.config['UPLOAD_FOLDER'], session["filename"])) #get image text using ocr_core function from img2txt
+        # file = request.files["file"] #get uploaded file
+        session["text"] = ""
+        session["filename"] = []
+        for file in request.files.getlist("file"):
+            # filename = secure_filename(file.filename) #get file name
+            session["filename"].append(secure_filename(file.filename))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename))) #save file to upload folder
+            session["text"] += ocr_core(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename))) #get image text using ocr_core function from img2txt
         # print(session["text"], file=sys.stderr)
         session["text"] = session["text"].replace('\n', '<br>') #replace newline with <br> so that it is rendered properly in the html
         session["words"] = [["".join(l for l in word if l.isalpha() or l==" " or l.isdigit()),""] for word in nltk.tokenize.sent_tokenize(session["text"].replace("<br><br>", ". ").replace("<br>", " ").replace("..",".")) if len(word)>2] #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
+        session["filename"] = [os.path.join(app.config['UPLOAD_FOLDER'],file) for file in session["filename"]]
         # print("These are wordsssssss: ",session["words"], file=sys.stderr)
         # print(session["words"], file=sys.stderr)
         # for i in session["words"]:
@@ -155,8 +155,7 @@ def result():
         return render_template("result.html", 
             msg="File uploaded successfully", 
             extracted_text=session["text"], 
-            img_src=os.path.join(app.config['UPLOAD_FOLDER'], 
-            session["filename"]), 
+            img_src=session["filename"], 
             words=session["words"], 
             sentences=session["classified_op"],
             video_urls = session["video_urls"],
@@ -174,7 +173,7 @@ def result():
     #         # print(session["words"][word], file=sys.stderr)
     #     #load result.html again with the appropriate message, image source, words list
     #     print(session["words"], file=sys.stderr)
-    #     return render_template("result.html", words=session["words"], extracted_text=session["text"], img_src=os.path.join(app.config['UPLOAD_FOLDER'], session["filename"]), sentences=session["classified_op"])
+    #     return render_template("result.html", words=session["words"], extracted_text=session["text"], img_src=session["filename"], sentences=session["classified_op"])
     #when the page is first loaded
     else:
         return render_template("result.html")

@@ -22,7 +22,9 @@
     {% endif %}
     <h3>Result:</h3>
     {% if img_src and img_src != "static/uploads/" %}
-    <img src="{{ img_src }}">
+    {% for img in img_src %}
+        <img src="{{ img }}">
+    {% endfor %}
     {% endif %}
 
     {% if extracted_text %}
