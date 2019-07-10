@@ -1,0 +1,95 @@
+#header{
+    background-color: #1abc9c;
+    height:150px;
+    line-height:150px;
+}
+
+#header a{
+    color:white;
+    text-decoration:none;
+}
+
+#header a:hover{
+    color:#222;
+}
+
+
+
+#header-nav{
+    display:block;
+    float:right;
+    margin-top:0;
+}
+
+#header-nav li{
+    display:inline;
+    padding-left:20px;
+}
+.buttons{
+    font-size: 6vw;
+    padding: 10px;
+}
+.container{
+    max-width:1000px;
+    margin:0 auto;
+}
+.logo{
+    background-color: #1abc9c;
+    height:150px;
+    line-height:150px;
+    float:left;
+    padding-left: 10px;
+}
+
+.uploading_section{
+    max-width: 1000px;
+    margin:0 auto;
+}
+
+.upload_img{
+    font-size: 6vw;
+    padding: 20px;
+}
+
+.button1{
+    /* width: 40vw; */
+    font-size: 5vw;
+    border:1px solid;
+}
+
+.button2{
+    /* width: 14vw; */
+    font-size: 4vw;
+}
+.result{
+    font-size: 2vw;
+}
+
+.success{
+    font-size: 4vw;
+}
+
+.failure{
+    font-size: 8vw;
+}
+
+label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+    vertical-align: middle;
+    font-size: 5vw;
+  }
+
+
+input[type="checkbox"] {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+    vertical-align: middle;
+}
