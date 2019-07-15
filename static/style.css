@@ -30,7 +30,7 @@
     padding: 10px;
 }
 .container{
-    max-width:1000px;
+    /* max-width:1000px; */
     margin:0 auto;
 }
 .logo{
@@ -42,19 +42,23 @@
 }
 
 .uploading_section{
-    max-width: 1000px;
-    margin:0 auto;
+    /* max-width: 1000px; */
+    text-align: center;
+    /* margin:0 auto; */
 }
 
 .upload_img{
     font-size: 6vw;
-    padding: 20px;
+    padding: 50px;
+    /* margin:0 auto; */
 }
 
 .button1{
     /* width: 40vw; */
     font-size: 5vw;
     border:1px solid;
+    /* margin-left:auto; */
+    /* margin-right:auto; */
 }
 
 .button2{
@@ -83,8 +87,8 @@ label {
 
 
 input[type="checkbox"] {
-    width: 30px;
-    height: 30px;
+    width: 5vw;
+    height: 5vw;
     padding: 0;
     margin:0;
     vertical-align: bottom;
@@ -92,4 +96,5 @@ input[type="checkbox"] {
     top: -1px;
     *overflow: hidden;
     vertical-align: middle;
+    /* transform: scale(2); */
 }

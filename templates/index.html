@@ -46,13 +46,15 @@
         <!-- <input type="checkbox" name="geting" value="Get Ingredients and Steps" checked> Get Ingredients and Steps <br> -->
         <!-- <input type="submit" value="Upload"> -->
     <!-- </form> -->
+    <br>
     <div class="uploading_section">
         <div class="upload_img">
             Please upload all the recipe images
         </div>    
         <br>
         <form method="POST" enctype="multipart/form-data" action="result">
-            <input type="file" name="file" class="button1" multiple onchange="this.form.submit()">
+            <input type="file" name="file" id="selectedFile" class="button1" multiple onchange="this.form.submit()" style="display: none;">
+            <input type="button" value="Browse..." onclick="document.getElementById('selectedFile').click();" name="fileBtn" class="button1" />
             <br><br>
             <label> <input type="checkbox" name="geting" value="Get Ingredients and Steps" checked> Get Ingredients and Steps </label> <br>
             <!-- <input type="submit" value="Upload" class="button2" > -->

@@ -19,6 +19,9 @@
         border:1px solid;
         font-size: 6vw;
         width: 100%;
+        /* max-width: 200px; */
+        margin-left:auto;
+        margin-right:auto;
         } 
         h3 {
             font-size: 10vw;
@@ -26,6 +29,11 @@
         img, iframe {
             width:100%;
             height:auto;
+        }
+        .ingimages{
+            max-width: 200px;
+            margin-left:auto;
+            margin-right:auto;
         }
     </style>
 </head>
@@ -90,7 +98,7 @@
     {% for sentence in sentences %}
     {% if sentence[0] == "ingredients" %}
     {{sentence[1]["quantity"]}} {{sentence[1]["unit"]}} {{sentence[1]["name"]}}<br>
-    <img src="{{sentence[2]}}">
+    <img src="{{sentence[2]}}" class="ingimages">
     <br><br>
     {% endif %}
     {% endfor %}
