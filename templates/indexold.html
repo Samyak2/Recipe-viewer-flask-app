@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <style>
+        input[type="file"] { 
+        /* color:#050;  */
+        /* font: bold 84% 'trebuchet ms',helvetica,sans-serif;  */
+        /* background-color:#fed;  */
+        border:1px solid; 
+        /* border-color: #696 #363 #363 #696;  */
+        font-size: 6vw;
+        width: 100%;
+        } 
+        h3 {
+            font-size: 3.14rem;
+        }
+        input[type="checkbox"] {
+            width: 100px;
+            height: 100px;
+            /* transform: scale(4); */
+        }
+    </style> -->
+    <title>Recipe Buddy</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+        <div id="header">
+                <div class="container">
+                    
+                    <ul id="header-nav">
+                        
+                        <li><a href="/" class="buttons">Reset</a></li>
+                    </ul>
+                    <div class="logo">
+                        Insert Logo here 
+                    </div>
+             </div>
+            </div>  
+    <!-- <h3>Upload images:</h3> -->
+    <!-- <form method="POST" enctype="multipart/form-data" action="result">
+        <input type="file" name="file" multiple onchange="this.form.submit()"><br> -->
+        <!-- <input type="checkbox" name="getall" value="Get all images" checked> Get all images <br> -->
+        <!-- <input type="checkbox" name="geting" value="Get Ingredients and Steps" checked> Get Ingredients and Steps <br> -->
+        <!-- <input type="submit" value="Upload"> -->
+    <!-- </form> -->
+    <br>
+    <div class="uploading_section">
+        <div class="upload_img">
+            Please upload all the recipe images
+        </div>    
+        <br>
+        <form method="POST" enctype="multipart/form-data" action="result">
+            <input type="file" name="file" id="selectedFile" class="button1" multiple onchange="this.form.submit()" style="display: none;">
+            <input type="button" value="Browse..." onclick="document.getElementById('selectedFile').click();" name="fileBtn" class="button1" />
+            <br><br>
+            <label> <input type="checkbox" name="geting" value="Get Ingredients and Steps" checked> Get Ingredients and Steps </label> <br>
+            <!-- <input type="submit" value="Upload" class="button2" > -->
+        </form>
+    </div>
+</body>
+
+</html>

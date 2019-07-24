@@ -1,0 +1,90 @@
+body{
+  background: white;
+  background-image: url("https://images.pexels.com/photos/357737/pexels-photo-357737.jpeg?cs=srgb&dl=cook-cuisine-delicious-357737.jpg&fm=jpg");
+  background-repeat: no-repeat;
+   background-size: 1600px 900px;
+}
+
+
+img{
+  width:500px;
+  height:300px;
+  margin: 0.5px;
+  transition:1s;
+}
+img:hover{
+transform:scale(1.1);
+}
+
+h1{
+  text-align: center;
+  color:white;
+  font-family: fantasy;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+  height:100;
+  width:800px;
+  text-anchor: center;
+  box-shadow: 4px 4px 5px #888888;
+}
+img{
+  max-width:180px;
+}
+input[type=file]{
+padding:10px;
+background:#2d2d2d;}
+
+form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -250px;
+  width: 500px;
+  height: 200px;
+  border: 4px black;
+  background-color: white;
+}
+form p{
+
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 170px;
+  color: white;
+  font-family: Arial;
+}
+form input{
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+}
+
+form button{
+  margin: 0;
+  color: white;
+  background: black;
+  border: none;
+  width: 508px;
+  height: 35px;
+  margin-top: -20px;
+  margin-left: -4px;
+  border-radius: 4px;
+  border-bottom: 4px solid #117A60;
+  transition: all .2s ease;
+  outline: none;
+}
+form button:hover{
+  background: black;
+	color:white;
+}
+form button:active{
+  border:0;
+}
+
+
+
