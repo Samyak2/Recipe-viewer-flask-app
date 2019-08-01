@@ -135,7 +135,7 @@ def result():
             session["text"] += ocr_core(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename))) + "\n" #get image text using ocr_core function from img2txt
         # print(session["text"], file=sys.stderr)
         session["text"] = session["text"].replace('\n', '<br>') #replace newline with <br> so that it is rendered properly in the html
-        session["words"] = [["".join(l for l in word if l.isalpha() or l==" " or l.isdigit()),""] for word in nltk.tokenize.sent_tokenize(session["text"].replace("<br><br>", ". ").replace("<br>", ". ").replace("..",".")) if len(word)>2] #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
+        session["words"] = [["".join(l for l in word if l.isalpha() or l==" " or l.isdigit()),""] for word in nltk.tokenize.sent_tokenize(session["text"].replace("<br><br>", ". ").replace("<br>", " ").replace("..",".")) if len(word)>2] #[word.strip(string.punctuation) for word in text.lower().replace("<br>", " ").split()]) #Get list of words from the text
         session["filename"] = [os.path.join(app.config['UPLOAD_FOLDER'],file) for file in session["filename"]]
         # print("These are wordsssssss: ",session["words"], file=sys.stderr)
         # print(session["words"], file=sys.stderr)
