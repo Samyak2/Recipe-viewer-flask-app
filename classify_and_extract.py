@@ -17,15 +17,13 @@ def get_features(text):
 
     # part of speech tag each of the words
     pos = pos_tag(words)
-    # Sometimes it's helpful to simplify the tags NLTK returns by default.
-    # I saw an increase in accuracy if I did this, but you may not
-    # depending on the application.
+    # It's helpful to simplify the tags NLTK returns by default.
     pos = [map_tag('en-ptb', 'universal', tag) for word, tag in pos]
     # Then, convert the words to lowercase like before
     words = [i.lower() for i in words]
     # Grab the trigrams
     trigrams = nltk.trigrams(words)
-    # We need to concatinate the trigrams into a single string to process
+    # We need to concatenate the trigrams into a single string to process
     trigrams = ["%s/%s/%s" % (i[0], i[1], i[2]) for i in trigrams]
 
     bigrams = nltk.bigrams(words)
