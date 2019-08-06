@@ -22,6 +22,12 @@ def ocr_core(img_path):
     cv2.imwrite("outs.png", img)
 
     # Recognize text with tesseract for python
-    result = image_to_string(img)
+    result = image_to_string(img, lang="eng", config='--psm 1')
+    whitelist = "/ %-\"'',.\n()"
+    # result = str(i for i in result if i.isalpha() or i.isdigit() or i in whitelist)
+    result = "".join(i for i in result if i.isalpha() or i.isdigit() or i in whitelist)
 
     return result
+
+if __name__ == "__main__":
+    print(ocr_core("static/uploads/WhatsApp_Image_2019-06-07_at_3.15.29_PM.jpeg"))
