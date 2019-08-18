@@ -64,12 +64,20 @@ def result():
                 gif_urls = session["gif_urls"]
                 )
     elif request.method == "POST" and "getvideos" in request.form:
+        required_steps = request.form.getlist("required_steps")
+        required_steps = list(map(int, required_steps))
+        print(list(required_steps), file=sys.stderr)
         session["video_urls"] = []
         print(session["classified_op"], file=sys.stderr)
         allverbs = []
+        i = 0
         for sent in session["classified_op"]:
-            if sent[0] == "steps":
+            # print(i, sent[0], required_steps)
+            if (sent[0] == "steps") and (i in required_steps):
+                # print(i)
+                # print(sent)
                 allverbs.append(sent[2])
+            i += 1
         print(allverbs, file=sys.stderr)
         session["video_urls"].extend(runYouTubeSpider(allverbs))
         video_urls = "https://www.youtube.com/embed/" + session["video_urls"][0] + "?playlist=" + ",".join(session["video_urls"][1:])# + "&autoplay=1"

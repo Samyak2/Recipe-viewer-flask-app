@@ -109,16 +109,19 @@
     {% endif %}
     {% endfor %}
     <h3>Steps:</h3>
+    <p>(Select steps to get videos)</p>
     <ol>
+
+    <form method="POST">
     {% for sentence in sentences %}
         {% if sentence[0] == "steps" %}
-            <li font-size="2.5vw">{{sentence[2]}}</li>
+            <li font-size="2.5vw"><input type="checkbox" name="required_steps" value={{sentences.index(sentence)}} /> {{sentence[2]}}</li>
         {% endif %}
     {% endfor %}
     </ol>
     {% endif %}
     <br><br>
-    <form method="POST"><input type="submit" value="Get Videos" name="getvideos" width="25vw" font-size="4.5vw" ></form>
+        <input type="submit" value="Get Videos" name="getvideos" width="25vw" font-size="4.5vw" ></form>
     <br>
     {% if video_urls %}
         <iframe src={{video_urls}} allowfullscreen width="640" height="360">
