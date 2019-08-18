@@ -104,7 +104,7 @@ model = define_model(ger_vocab_size, eng_vocab_size, ger_length, eng_length, 256
 model.compile(optimizer='adam', loss='categorical_crossentropy')
 # summarize defined model
 print(model.summary())
-plot_model(model, to_file='model.png', show_shapes=True)
+# plot_model(model, to_file='model.png', show_shapes=True)
 # fit model
 filename = 'model3.h5'
 checkpoint = ModelCheckpoint(filename, monitor='loss', verbose=2, save_best_only=True, mode='min')
