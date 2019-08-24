@@ -1,0 +1,8 @@
+<form action="{{ url_for('deleteBook',book_id = book.id)}}" method="post">
+    <div class="form-group">
+        <button type="submit"> DELETE</button>
+        <a href='{{url_for('showBooks')}}'>
+            <button>Cancel</button>
+        </a>
+    </div>
+ </form>

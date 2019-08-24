@@ -8,3 +8,7 @@ deskew_thresh.png
 outs.png
 .vscode/
 out.png
+API/Flask-API-testing/.env
+API/Flask-API-testing/firebase-private-key.json
+API/Flask-API-testing - Copy/firebase-private-key.json
+API/Flask-API-testing - Copy/.env

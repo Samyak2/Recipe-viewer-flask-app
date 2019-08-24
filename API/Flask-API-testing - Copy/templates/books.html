@@ -1,0 +1,36 @@
+<html>
+<body>
+   <h1>Recipes</h1>
+   <a href="{{url_for('newBook')}}">
+       <button>Add Recipe</button>
+   </a>
+   <ol>
+       {% for recipe in recipes.values() %}
+       <li> {{ recipe['title'] }}
+       {% for image in recipe['images'] %}
+            <br>
+            <img src="data:image/jpeg;base64,{{ image }}" />
+       {% endfor %}
+       <p>Steps:</p>
+       <ol>
+       {% for step in recipe['steps'] %}
+            <li>{{step}}</li>
+       {% endfor %}
+        </ol>
+        <p>Ingredients:</p>
+        <ol>
+        {% for ing in recipe['ingredients'] %}
+             <li>{{ing}}</li>
+        {% endfor %}
+         </ol>
+       <a href="{{url_for('newBook' )}}">
+           Edit
+       </a>
+       <a href="{{url_for('newBook' )}}" style="margin-left: 10px;">
+           Delete
+       </a> </li>
+       <br> <br>
+       {% endfor %}
+   </ol>
+</body>
+</html>
