@@ -28,7 +28,7 @@ config = {
   "databaseURL": "https://recipe-viewer-1.firebaseio.com",
   "projectId": "recipe-viewer-1",
   "storageBucket": "recipe-viewer-1.appspot.com",
-  "serviceAccount": "firebase-private-key.json",
+#   "serviceAccount": "firebase-private-key.json",
   "messagingSenderId": "374628466588"
 }
 firebase = pyrebase.initialize_app(config)
