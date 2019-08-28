@@ -86,5 +86,22 @@ form button:active{
   border:0;
 }
 
+form.signout {
+  position: absolute;
+  top: 5%;
+  left: 90%;
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 100px;
+  height: 40px;
+  border: 0px rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
+}
 
-
+input.signout {
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  outline: aliceblue;
+  opacity: 1;
+}

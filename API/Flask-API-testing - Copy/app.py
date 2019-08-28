@@ -33,6 +33,11 @@ config = {
 }
 firebase = pyrebase.initialize_app(config)
 firedb = firebase.database()
+auth = firebase.auth()
+# auth.create_user_with_email_and_password("samyaks210@gmail.com", "Samyak S")
+email = "samyaks210@gmail.com"
+password = "Samyak S"
+user = auth.sign_in_with_email_and_password(email, password)
 # firedb.child("test").push("Hmmm")
 
 # DBSession = sessionmaker(bind=engine)
@@ -40,11 +45,12 @@ firedb = firebase.database()
 
 #landing page that will display all the books in our database
 #This function operate on the Read operation.
+@app.route("/")
 @app.route('/books')
 def showBooks():
 #    books = db.session.query(Recipe).all()
-   vals = firedb.child("recipes").get().val()
-#    print(vals)
+   vals = firedb.child("users/" + user["localId"] + "/recipes").get().val()
+#    print(type(firedb.child("users/" + user["localId"] + "/count").get().val()))
    return render_template("books.html", recipes=vals)
 
 #This will let us Create a new book and save it in our database
@@ -75,7 +81,9 @@ def newBook():
         newRecipedict["steps"] = request.form["steps"].split(",")
         # newRecipe = Recipe(title = title, filenames = filenames, image = image, ingredients = ingredients, steps = steps)
         # newRecipedict = {"title": title, "filenames": filenames, "image": image, "ingredients": ingredients, "steps": steps}
-        firedb.child("recipes").push(newRecipedict)
+        count = firedb.child("users/" + user["localId"] + "/count").get().val()
+        firedb.child("users/" + user["localId"]).update({"count": count+1}, user["idToken"])
+        firedb.child("users/" + user["localId"] + "/recipes").push(newRecipedict, user["idToken"])
     #    newBook = Book(title = request.form['name'], author = request.form['author'], genre = request.form['genre'])
         # db.session.add(newRecipe)
         # db.session.commit()

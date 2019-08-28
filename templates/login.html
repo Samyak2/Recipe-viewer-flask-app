@@ -1,0 +1,27 @@
+<html>
+<head>
+<title> 3D RECIPE VIEWER</title>
+<!-- <link rel="stylesheet" type="text/css" href ="static/cs.css"> -->
+</head>
+<h1 style="color:white;font-size:50px"><b> Recipe Viewer</b></h1>
+<body>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+{% if msg %}
+    <h3>{{msg}}</h3>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data" action="{{url_for('index')}}">
+    <!-- <input type="file" name="file" id="selectedFile" class="button1" multiple accept="image/*"> -->
+    <!-- <p style="color:black;font-size:25px" ><b>DROP YOUR FILES HERE</b></p> -->
+    <input type="email" placeholder="Enter your email" name="email" required>
+    <input type="password" placeholder="Enter your password" name="password" required> 
+    <a href="{{url_for('index')}}"><button type="submit">Login</button></a>
+</form>
+
+<form action="{{ url_for('create_user') }}">
+    <input type="submit" value="Create new Account" />
+</form>
+</body>
+</html>

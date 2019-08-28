@@ -1,16 +1,19 @@
-from flask import Flask, request, render_template, send_from_directory, session
+from flask import Flask, request, render_template, send_from_directory, session, url_for, redirect
 from werkzeug import secure_filename
 from img2text import ocr_core
 import os
 import sys
-from collections import OrderedDict
 from scrapers.google_images_scraper import runSpider
-from classify_and_extract import classify_and_extract
-import nltk
-from threading import Thread
-from queue import Queue
 from scrapers.youtube_video_scraper import runYouTubeSpider
 from scrapers.tenor_gifs_scraper import runGIFSpider
+from classify_and_extract import classify_and_extract
+import nltk
+from dotenv import load_dotenv
+load_dotenv()
+import pyrebase
+import base64
+import pickle
+import requests
 
 app = Flask(__name__) #initialize flask object
 UPLOAD_FOLDER = 'static/uploads/' #folder where uploaded images are to be stored
@@ -19,10 +22,53 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 nltk.data.path.append('./nltk_data/')
 app.secret_key = "Secret key don't share pls"
 
-@app.route("/")
+config = {
+  "apiKey": os.environ['FIREBASE_API_KEY'],
+  "authDomain": "recipe-viewer-1.firebaseapp.com",
+  "databaseURL": "https://recipe-viewer-1.firebaseio.com",
+  "projectId": "recipe-viewer-1",
+  "storageBucket": "recipe-viewer-1.appspot.com",
+  "serviceAccount": "firebase-private-key.json",
+  "messagingSenderId": "374628466588"
+}
+firebase = pyrebase.initialize_app(config)
+firedb = firebase.database()
+auth = firebase.auth()
+
+@app.route("/", methods=["GET", "POST"])
 def index():
-    session.clear()
-    return render_template("index.html")
+    print("user" in session)
+    if request.method == "POST" and "signout" in request.form:
+        print("Signing out")
+        auth.current_user = None
+        session.pop("user")
+    elif request.method == "GET" and "user" in session:
+        return render_template("index.html")
+    elif request.method == "POST" and "email" in request.form and "password" in request.form:
+        try:
+            user = auth.sign_in_with_email_and_password(request.form["email"], request.form["password"])
+        except requests.exceptions.HTTPError as e:
+            response = e.args[0].response
+            error = response.json()['error']['message']
+            print("ERROR: ", error, file=sys.stderr)
+            return render_template("login.html", msg="Invalid username or password")
+        session["user"] = user
+        return render_template("index.html")
+    return render_template("login.html", msg="Login to continue")
+
+@app.route("/createUser", methods=["GET", "POST"])
+def create_user():
+    if request.method == "POST" and "email" in request.form and "password" in request.form and "confirm_password" in request.form:
+        if request.form["password"] == request.form["confirm_password"]:
+            try:
+                auth.create_user_with_email_and_password(request.form["email"], request.form["password"])
+            except requests.exceptions.HTTPError as e:
+                response = e.args[0].response
+                error = response.json()['error']['message']
+                print("ERROR: ", error, file=sys.stderr)
+                return redirect(url_for("create_user"))
+            return redirect(url_for("index"))
+    return render_template("create_user.html")
 
 # words = OrderedDict() #ordered dictionary to store words and corresponding image url
 # filename="" #to store name of uploaded image file
@@ -134,6 +180,7 @@ def result():
         if "file" not in request.files or request.files["file"].filename == "": #if file is not uploaded
             return render_template("results2.html", msg="No file selected") #Display message, {{msg}} in the html is replaced with the message
         # file = request.files["file"] #get uploaded file
+        session["recipe_dict"] = {}
         session["text"] = ""
         session["filename"] = []
         for file in request.files.getlist("file"):
