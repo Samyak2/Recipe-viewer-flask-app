@@ -1,5 +1,5 @@
 ## Usage
 
--Run `python app.py`
+- Run `python app.py`
 
--Go to `http://localhost:5000/` from a browser
+- Go to `http://localhost:5000/` from a browser
