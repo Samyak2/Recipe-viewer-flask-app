@@ -1,100 +1,35 @@
-#header{
-    background-color: #1abc9c;
-    height:150px;
-    line-height:150px;
+@import url('https://fonts.googleapis.com/css?family=Varela+Round&display=swap');
+
+body{
+    background-color: #FFFDF7;
+    padding: 0%;
+    padding-top: 0%;
+    margin: 0%;
+    margin-top: 0%;
+    font-family: 'Varela Round', sans-serif;
 }
 
-#header a{
-    color:white;
-    text-decoration:none;
-}
-
-#header a:hover{
-    color:#222;
-}
-
-
-
-#header-nav{
-    display:block;
-    float:right;
-    margin-top:0;
-}
-
-#header-nav li{
-    display:inline;
-    padding-left:20px;
-}
-.buttons{
-    font-size: 6vw;
-    padding: 10px;
-}
-.container{
-    /* max-width:1000px; */
-    margin:0 auto;
-}
-.logo{
-    background-color: #1abc9c;
-    height:150px;
-    line-height:150px;
-    float:left;
-    padding-left: 10px;
-}
-
-.uploading_section{
-    /* max-width: 1000px; */
-    text-align: center;
-    /* margin:0 auto; */
-}
-
-.upload_img{
-    font-size: 6vw;
+#square{
+    border-radius: 120px;
+    width: 300px;
+    height: 300px;
+    border:15px #FFFEE6;
     padding: 50px;
-    /* margin:0 auto; */
+    margin: 12px;
+    font-size: 1.25em;
+    background-color: #E8E5D1;
+    size: 200%;
 }
 
-.button1{
-    /* width: 40vw; */
-    font-size: 5vw;
-    border:1px solid;
-    /* margin-left:auto; */
-    /* margin-right:auto; */
+#header{
+    text-align: center;
+    border: 0;
+    margin: 0%;
+    font-size: 2em;
+    background-color: #3F403D;
 }
 
-.button2{
-    /* width: 14vw; */
-    font-size: 4vw;
-}
-.result{
-    font-size: 2vw;
+#heading{
+    color:#7E807A;
 }
 
-.success{
-    font-size: 4vw;
-}
-
-.failure{
-    font-size: 8vw;
-}
-
-label {
-    display: block;
-    padding-left: 15px;
-    text-indent: -15px;
-    vertical-align: middle;
-    font-size: 5vw;
-  }
-
-
-input[type="checkbox"] {
-    width: 5vw;
-    height: 5vw;
-    padding: 0;
-    margin:0;
-    vertical-align: bottom;
-    position: relative;
-    top: -1px;
-    *overflow: hidden;
-    vertical-align: middle;
-    /* transform: scale(2); */
-}
