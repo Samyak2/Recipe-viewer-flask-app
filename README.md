@@ -1,3 +1,7 @@
+## Description
+
+Main repository is [here](https://github.com/dscpesu/recipe-viewer)
+
 ## Usage
 
 - Run `python app.py`
