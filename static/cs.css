@@ -2,7 +2,7 @@ body{
   background: white;
   background-image: url("https://images.pexels.com/photos/357737/pexels-photo-357737.jpeg?cs=srgb&dl=cook-cuisine-delicious-357737.jpg&fm=jpg");
   background-repeat: no-repeat;
-   background-size: 1600px 900px;
+  background-size: cover;
 }
 
 
